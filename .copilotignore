@@ -1,0 +1,10 @@
+# Prevent GitHub Copilot from reading environment/secret files
+.env
+.env.*
+.env.local
+.env.*.local
+*.pem
+*.key
+*.cert
+*.p12
+secrets/
