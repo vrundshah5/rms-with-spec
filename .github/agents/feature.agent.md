@@ -74,23 +74,30 @@ Ask the user for the Figma link before creating `spec.yaml`. If they have none, 
 Look at the confirmed task list. Each task is typed as `UI / Design` or `Logic / Backend`.
 
 **If ALL tasks are `UI / Design`:**
-Invoke the `design` sub-agent for each design task — pass **both** the task description **and** the path to `featureFlow/<featureName>/` so it can update the summary.
+- Invoke the `design` sub-agent for each design task in order — pass **both** the task description **and** the path to `featureFlow/<featureName>/`.
+- The `design` agent internally triggers `design-qa` after each task. Wait for `design-qa` to PASS before the next task.
+- **Do NOT invoke `dev-qa`** — no logic tasks exist.
 
 **If ALL tasks are `Logic / Backend`:**
-Invoke the `dev` sub-agent for each logic task in order.
+- Invoke the `dev` sub-agent for each logic task in order — pass the task description and `featureFlowPath`.
+- The `dev` agent internally triggers `dev-qa` after each task. Wait for `dev-qa` to PASS before the next task.
+- **Do NOT invoke `design-qa`** — no design tasks exist.
 
 **If there is a MIX of both types:**
-1. Invoke the `design` sub-agent for every `UI / Design` task first (in order).
-2. Then invoke the `dev` sub-agent for every `Logic / Backend` task (in order).
+1. Invoke the `design` sub-agent for every `UI / Design` task first (in order). The `design` agent triggers `design-qa` after each — wait for PASS.
+2. Then invoke the `dev` sub-agent for every `Logic / Backend` task (in order). The `dev` agent triggers `dev-qa` after each — wait for PASS.
+3. Both `design-qa` and `dev-qa` will run as part of their respective agents.
+
+> **QA Rule:** `design-qa` only runs when there are design tasks. `dev-qa` only runs when there are logic tasks. Never invoke one for the other's task type.
 
 Wait for each sub-agent to complete before invoking the next.
 
 ### Step 5 — Finalise summary
-After all sub-agents complete (design, design-qa, dev, dev-qa), update `featureFlow/<featureName>/summary.md`:
+After all sub-agents complete, update `featureFlow/<featureName>/summary.md`:
 - Mark all tasks as `done` in the tasks table
 - Set `status: "complete"` in `spec.yaml`
 - Fill in the `## Outcome` section with a brief description of what was built and tested
 - Append a final entry to `## Progress Log`:
   ```
-  - [<date>] Feature complete. All QA passed. Branch: <branch>
+  - [<date>] Feature complete. QA passed (design-qa: <yes/no>, dev-qa: <yes/no>). Branch: <branch>
   ```

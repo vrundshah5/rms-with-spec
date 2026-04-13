@@ -19,10 +19,14 @@ You are a specialist UI/design agent. Your job is to implement high-quality, acc
 
 # Workflow
 
-### Step 1 — Load skills
-Before writing any code, read and internalize the rules from both skill files:
-- `.github/skills/tailwind-v4-shadcn-ui.md`
-- `.github/skills/color-token-skill.md`
+### Step 1 — Load design patterns and skills
+Before writing any code, read and internalize all of the following — in this order:
+
+1. **`design.md`** (repo root) — identifies the available brand design systems and core principles. Determine which brand design system applies to this feature (from the task description or `spec.yaml`). Read the corresponding `design-md/<brand>/README.md`. If the README links to an external URL, fetch and read that page for full details.
+2. **`.github/skills/tailwind-v4-shadcn-ui.md`** — component patterns, design principles, and pre-ship checklist
+3. **`.github/skills/color-token-skill.md`** — color token conventions and semantic naming
+
+Apply the brand's design system throughout all implementation decisions: colors, typography, spacing, layout, and component style.
 
 ### Step 2 — Understand the design request
 Read the feature description. Explore the codebase to understand:
