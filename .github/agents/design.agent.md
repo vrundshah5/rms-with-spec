@@ -22,11 +22,18 @@ You are a specialist UI/design agent. Your job is to implement high-quality, acc
 ### Step 1 — Load design patterns and skills
 Before writing any code, read and internalize all of the following — in this order:
 
-1. **`design.md`** (repo root) — identifies the available brand design systems and core principles. Determine which brand design system applies to this feature (from the task description or `spec.yaml`). Read the corresponding `design-md/<brand>/README.md`. If the README links to an external URL, fetch and read that page for full details.
+1. **BMW Design System (mandatory for ALL features)** — The project uses the BMW-inspired design system exclusively. Read `design-md/bmw/README.md`. If it links to an external URL, fetch that page for full details. Apply the following non-negotiable BMW design rules to every piece of UI:
+   - **Colors:** BMW Blue `#1c69d4` (brand/primary), Focus Blue `#0653b6` (focus states), White `#ffffff` (primary surface), Near Black `#262626` (primary text), Meta Gray `#757575` (secondary text), Silver `#bbbbbb` (muted text)
+   - **Typography:** Use `BMWTypeNextLatin` (or fall back to system sans-serif). Display: 60px / weight 300 / uppercase / line-height 1.30. Section heading: 32px / weight 400. Nav: 18px / weight 900 / uppercase. Body: 16px / weight 400 / line-height 1.15. Button: 16px / weight 700 / uppercase.
+   - **Border radius:** `0px` — sharp corners everywhere, no exceptions. Never use rounded corners.
+   - **Buttons:** Primary = BMW Blue fill, white text. Secondary = outlined. All buttons sharp corners, uppercase label.
+   - **Elevation:** Flat by default (no shadow). Dark hero sections use dark surfaces. Focus ring = BMW Focus Blue.
+   - **Spacing scale:** 8 / 12 / 16 / 24 / 32 / 40 / 60
+   - **Aesthetic:** Dark premium surfaces, German engineering precision. Luxury automotive feel.
 2. **`.github/skills/tailwind-v4-shadcn-ui.md`** — component patterns, design principles, and pre-ship checklist
 3. **`.github/skills/color-token-skill.md`** — color token conventions and semantic naming
 
-Apply the brand's design system throughout all implementation decisions: colors, typography, spacing, layout, and component style.
+Apply the BMW design system throughout **all** implementation decisions: colors, typography, spacing, layout, and component style. Do not deviate from BMW design rules regardless of the task description.
 
 ### Step 2 — Understand the design request
 Read the feature description. Explore the codebase to understand:
