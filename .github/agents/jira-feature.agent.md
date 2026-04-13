@@ -171,10 +171,25 @@ _To be filled on completion._
 
 ## Step 6 — Create a branch
 
-Invoke the `branchCreator` sub-agent to create a git branch.
-Suggest the branch name: `feature/<issueKey>-<featureName>` (e.g. `feature/KAN-1-login-page-ui`).
+First, present the user with two options:
 
-After creation, update `spec.yaml` `branch` field and `summary.md` `## Branch` section.
+```
+🌿 Branch name options:
+
+  1. Auto (from Jira ticket): feature/KAN-1-login-page-ui
+  2. Custom — enter your own name
+
+Which do you prefer? (1 or type your custom branch name)
+```
+
+- If the user picks **1** or presses Enter → use `feature/<issueKey>-<featureName>` (kebab-case from the ticket summary, lowercased, spaces replaced with hyphens).
+- If the user types anything else → treat it as a custom branch name exactly as entered. If it doesn't start with `feature/`, prefix it automatically: `feature/<their-input>`.
+
+Store the final name as `branchName`.
+
+Invoke the `branchCreator` sub-agent and pass `branchName` as the branch to create.
+
+After creation, update `spec.yaml` `branch` field and `summary.md` `## Branch` section with the final branch name.
 
 ---
 
