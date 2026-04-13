@@ -1,7 +1,7 @@
 ---
 name: design
 description: Builds and updates UI components, pages, and layouts using Tailwind CSS v4 and shadcn/ui. Invoked by the feature agent for any design or UI ticket.
-argument-hint: A description of the UI or design work to implement.
+argument-hint: A description of the UI or design work to implement. Also expects the featureFlow path (e.g. featureFlow/login-page/) to update summary and screenshots.
 tools: ["codebase", "edit", "read", "search", "terminal"]
 ---
 
@@ -62,5 +62,19 @@ Before finishing, verify every item from the checklist in `tailwind-v4-shadcn-ui
 - [ ] Labels linked to inputs, buttons have descriptive text
 - [ ] Spacing follows Tailwind scale
 
-### Step 6 — Confirm completion
+### Step 6 — Update featureFlow summary
+Append to `featureFlow/<featureName>/summary.md`:
+- Mark this design task as `done` in the tasks table
+- Add a progress log entry: `[<date>] Design implemented: <list of files changed>`
+
+### Step 7 — Trigger design QA
+Invoke the `design-qa` sub-agent. Pass it:
+- `featureFlowPath`: path to `featureFlow/<featureName>/`
+- `localUrl`: the local dev server URL from `spec.yaml` (default `http://localhost:5173/`)
+- `figmaLink`: value from `spec.yaml` `figma_link` field (may be blank)
+- `taskDescription`: what was just built
+
+Wait for `design-qa` to complete. If it reports issues, fix them and re-trigger `design-qa`. Only proceed when `design-qa` returns a PASS.
+
+### Step 8 — Confirm completion
 Briefly list what was built and which files were created or changed.

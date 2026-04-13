@@ -1,7 +1,7 @@
 ---
 name: dev
 description: Implements logic, backend, API integration, state management, and non-visual features. Invoked by the feature agent for Logic / Backend tasks.
-argument-hint: A description of the logic or backend task to implement.
+argument-hint: A description of the logic or backend task to implement. Also expects featureFlowPath (e.g. featureFlow/login-page/) to update summary and trigger dev-qa.
 tools: ["codebase", "edit", "read", "search", "terminal"]
 ---
 
@@ -35,5 +35,19 @@ Before writing code, briefly outline:
 - Check that the implementation compiles without errors
 - Confirm it integrates correctly with existing code (no broken imports, no type errors)
 
-### Step 5 — Confirm completion
+### Step 5 — Update featureFlow summary
+Append to `featureFlowPath/summary.md`:
+- Mark this logic task as `done` in the tasks table
+- Add a progress log entry: `[<date>] Logic implemented: <list of files changed>`
+
+### Step 6 — Trigger dev QA
+Invoke the `dev-qa` sub-agent. Pass it:
+- `featureFlowPath`: path to `featureFlow/<featureName>/`
+- `localUrl`: the local dev server URL from `spec.yaml` (default `http://localhost:5173/`)
+- `taskDescription`: what was just implemented
+- `acceptanceCriteria`: from `spec.yaml` acceptance_criteria field (may be blank)
+
+Wait for `dev-qa` to complete. If it reports a real implementation bug, fix it and re-trigger `dev-qa`. Only proceed when `dev-qa` returns a PASS.
+
+### Step 7 — Confirm completion
 Briefly list what was implemented and which files were created or changed.
