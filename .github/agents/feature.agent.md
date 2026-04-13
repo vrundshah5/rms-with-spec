@@ -92,12 +92,44 @@ Look at the confirmed task list. Each task is typed as `UI / Design` or `Logic /
 
 Wait for each sub-agent to complete before invoking the next.
 
-### Step 5 — Finalise summary
+### Step 5 — Post-completion verification
+After all sub-agents complete and before finalising the summary, run the following checks **in order**. If any check fails, fix the issues and re-run that check before proceeding.
+
+**5a — TypeScript check (no type errors)**
+```bash
+pnpm tsc --noEmit
+```
+- If errors are reported, fix them now. Re-run until it exits with code 0.
+
+**5b — Production build (must succeed)**
+```bash
+pnpm build
+```
+- If the build fails, resolve all errors. Re-run until it exits with code 0.
+
+**5c — Console error check**
+- Start the dev server (`pnpm dev`) and use the Chrome DevTools MCP (or Playwright) to open every page that was added or modified by this feature.
+- Confirm there are **no console errors** (red entries) in the browser DevTools console.
+- If errors are found, fix them and repeat this check.
+
+Record the results of all three checks in `featureFlow/<featureName>/summary.md` under a `## Verification` section:
+```markdown
+## Verification
+| Check | Result |
+|-------|--------|
+| TypeScript (`pnpm tsc --noEmit`) | ✅ Pass / ❌ Fail |
+| Production build (`pnpm build`)  | ✅ Pass / ❌ Fail |
+| Console errors (all pages)       | ✅ None / ❌ Errors found |
+```
+
+Only proceed to Step 6 when **all three checks pass**.
+
+### Step 6 — Finalise summary
 After all sub-agents complete, update `featureFlow/<featureName>/summary.md`:
 - Mark all tasks as `done` in the tasks table
 - Set `status: "complete"` in `spec.yaml`
 - Fill in the `## Outcome` section with a brief description of what was built and tested
 - Append a final entry to `## Progress Log`:
   ```
-  - [<date>] Feature complete. QA passed (design-qa: <yes/no>, dev-qa: <yes/no>). Branch: <branch>
+  - [<date>] Feature complete. QA passed (design-qa: <yes/no>, dev-qa: <yes/no>). Verification passed (tsc: ✅, build: ✅, console: ✅). Branch: <branch>
   ```
