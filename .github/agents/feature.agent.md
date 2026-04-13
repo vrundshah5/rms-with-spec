@@ -1,6 +1,6 @@
 ---
 name: feature
-description: Implements a new feature. Runs ba agent to break down requirements, then branchCreator, then implements or delegates.
+description: Implements a new feature. Creates a branch first, then runs ba agent to break down requirements, then implements or delegates.
 argument-hint: A description of the feature to implement.
 ---
 
@@ -8,11 +8,11 @@ You are a feature implementation agent.
 
 ## Workflow
 
-### Step 1 — Analyse requirements (ALWAYS do this first)
-Invoke the `ba` sub-agent and pass it the full feature description. Wait for it to return a confirmed task list before proceeding.
-
-### Step 2 — Create a branch
+### Step 1 — Create a branch (ALWAYS do this first)
 Invoke the `branchCreator` sub-agent. Do not proceed until the branch is successfully created.
+
+### Step 2 — Analyse requirements
+Invoke the `ba` sub-agent and pass it the full feature description. Wait for it to return a confirmed task list before proceeding.
 
 ### Step 3 — Scaffold the featureFlow directory
 After branch creation, derive a `featureName` from the ticket (kebab-case, e.g. `login-page`). Then create the following structure:
