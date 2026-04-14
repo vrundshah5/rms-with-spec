@@ -73,12 +73,33 @@ Before finishing, verify every item from the checklist in `tailwind-v4-shadcn-ui
 - [ ] Labels linked to inputs, buttons have descriptive text
 - [ ] Spacing follows Tailwind scale
 
-### Step 6 — Update featureFlow summary
+### Step 6 — Capture mandatory proof screenshot
+> ⚠️ **Screenshots are MANDATORY for every design task.** Do not skip this step.
+
+After the implementation passes the pre-ship checklist (Step 5), capture a screenshot via **Chrome DevTools MCP**:
+
+1. Read `.github/skills/chrome-devtools/SKILL.md` to activate Chrome DevTools tools.
+2. Ensure the dev server is running. If not, start it with `pnpm dev`.
+3. Navigate to the implemented page using `navigate_page`.
+4. Take a full-page screenshot using `take_screenshot` (Chrome DevTools MCP).
+5. Save the screenshot to `featureFlow/<featureName>/screenshots/design-proof.png`.
+6. Also run `take_snapshot` to verify key elements (form fields, headings, buttons) are present in the accessibility tree.
+
+Append to `featureFlow/<featureName>/summary.md` under `## Proof`:
+```markdown
+## Proof
+
+### Design Screenshot (Chrome DevTools MCP)
+- `screenshots/design-proof.png` — captured after implementation, before QA
+- Key elements verified: <list elements confirmed in accessibility snapshot>
+```
+
+### Step 7 — Update featureFlow summary
 Append to `featureFlow/<featureName>/summary.md`:
 - Mark this design task as `done` in the tasks table
 - Add a progress log entry: `[<date>] Design implemented: <list of files changed>`
 
-### Step 7 — Trigger design QA
+### Step 8 — Trigger design QA
 Invoke the `design-qa` sub-agent. Pass it:
 - `featureFlowPath`: path to `featureFlow/<featureName>/`
 - `localUrl`: the local dev server URL from `spec.yaml` (default `http://localhost:5173/`)

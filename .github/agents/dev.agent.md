@@ -35,12 +35,31 @@ Before writing code, briefly outline:
 - Check that the implementation compiles without errors
 - Confirm it integrates correctly with existing code (no broken imports, no type errors)
 
-### Step 5 — Update featureFlow summary
+### Step 5 — Capture mandatory proof screenshot
+> ⚠️ **Screenshots are MANDATORY for every backend/integration task.** Do not skip this step.
+
+After the implementation compiles and integrates correctly, capture a screenshot of the working UI via **Chrome DevTools MCP**:
+
+1. Read `.github/skills/chrome-devtools/SKILL.md` to activate Chrome DevTools tools.
+2. Ensure the dev server is running. If not, start it with `pnpm dev`.
+3. Navigate to the page that visibly surfaces the implemented feature using `navigate_page`.
+4. Take a screenshot using `take_screenshot` (Chrome DevTools MCP).
+5. Save the screenshot to `featureFlow/<featureName>/screenshots/dev-proof.png`.
+
+Append to `featureFlow/<featureName>/summary.md` under `## Proof`:
+```markdown
+## Proof
+
+### Integration Screenshot (Chrome DevTools MCP)
+- `screenshots/dev-proof.png` — feature rendered after backend/integration implementation
+```
+
+### Step 6 — Update featureFlow summary
 Append to `featureFlowPath/summary.md`:
 - Mark this logic task as `done` in the tasks table
 - Add a progress log entry: `[<date>] Logic implemented: <list of files changed>`
 
-### Step 6 — Trigger dev QA
+### Step 7 — Trigger dev QA
 Invoke the `dev-qa` sub-agent. Pass it:
 - `featureFlowPath`: path to `featureFlow/<featureName>/`
 - `localUrl`: the local dev server URL from `spec.yaml` (default `http://localhost:5173/`)
@@ -49,5 +68,5 @@ Invoke the `dev-qa` sub-agent. Pass it:
 
 Wait for `dev-qa` to complete. If it reports a real implementation bug, fix it and re-trigger `dev-qa`. Only proceed when `dev-qa` returns a PASS.
 
-### Step 7 — Confirm completion
+### Step 8 — Confirm completion
 Briefly list what was implemented and which files were created or changed.
