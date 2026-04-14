@@ -134,6 +134,7 @@ feature:
   jira_key: "<issueKey>"
   task_type: "<taskType>"
   branch: ""            # filled after Step 6
+  base_branch: ""       # filled after Step 6
   created: "<today's date>"
   local_url: "http://localhost:5173/"
   figma_link: ""        # ask user below
@@ -153,6 +154,7 @@ If provided, set `figma_link` in spec.yaml.
 
 ## Branch
 <filled after Step 6>
+**Branch:** `<branchName>` → `<baseBranch>`
 
 ## Progress Log
 - [<date>] Ticket <issueKey> picked. Moved to In Progress. featureFlow scaffolded.
@@ -187,9 +189,15 @@ Which do you prefer? (1 or type your custom branch name)
 
 Store the final name as `branchName`.
 
+Then ask the user:
+```
+🎯 Which base branch should the PR target? (press Enter for 'main')
+```
+Store the answer as `baseBranch` (default `main`).
+
 Invoke the `branchCreator` sub-agent and pass `branchName` as the branch to create.
 
-After creation, update `spec.yaml` `branch` field and `summary.md` `## Branch` section with the final branch name.
+After creation, update `spec.yaml` `branch` and `base_branch` fields and `summary.md` `## Branch` section with the final branch name and base branch.
 
 ---
 
@@ -211,23 +219,27 @@ After creation, update `spec.yaml` `branch` field and `summary.md` `## Branch` s
 
 ## Step 8 — Capture proof
 
+> ⚠️ **Screenshots are MANDATORY for ALL task types** — UI/Design AND Logic/Backend/Integration.
+> You MUST use the **Chrome DevTools MCP** for all screenshots.
+> Read `.github/skills/chrome-devtools/SKILL.md` before taking any screenshot.
+> Do NOT skip this step or proceed to Step 9 without saved proof.
+
 After all implementation and QA passes, capture evidence based on `taskType`.
 
 ### For UI / Design tasks — Screenshots
 
-Read `.github/skills/chrome-devtools/SKILL.md` to activate Chrome DevTools tools.
-
-1. Navigate to `http://localhost:5173/` (or the relevant page from `spec.yaml`).
-2. Take a full-page screenshot using `take_screenshot`.
-3. Save the screenshot file path — it goes into `featureFlow/<featureName>/screenshots/`.
-4. Also take a snapshot (accessibility tree) to verify key elements are present.
-5. If dark mode applies, toggle it and capture a second screenshot.
+1. Read `.github/skills/chrome-devtools/SKILL.md` to activate Chrome DevTools tools.
+2. Navigate to the relevant page from `spec.yaml` (e.g. `http://localhost:5173/login`).
+3. Take a full-page screenshot using `take_screenshot` via Chrome DevTools MCP.
+4. Save the screenshot to `featureFlow/<featureName>/screenshots/01-light-mode.png`.
+5. Take an accessibility snapshot (`take_snapshot`) to verify key elements are present.
+6. If dark mode applies, toggle it and capture a second screenshot (`02-dark-mode.png`).
 
 Store proof references in `featureFlow/<featureName>/summary.md` under `## Proof`:
 ```markdown
 ## Proof
 
-### Screenshots
+### Screenshots (Chrome DevTools MCP)
 - `screenshots/01-light-mode.png` — main view, light mode
 - `screenshots/02-dark-mode.png` — main view, dark mode (if applicable)
 
@@ -235,18 +247,22 @@ Store proof references in `featureFlow/<featureName>/summary.md` under `## Proof
 Key elements verified: <list the elements confirmed present>
 ```
 
-### For Logic / Backend tasks — API Results + Screenshot
+### For Logic / Backend / Integration tasks — Screenshot + API Results
 
-1. Check if the dev server is running (`http://localhost:5173/`). If not, note it.
-2. Take a screenshot of the working UI that surfaces the backend feature (e.g. the page showing data fetched from the API).
-3. From the `dev-qa` results, extract the API responses or test output.
-4. Save any API response JSON to `featureFlow/<featureName>/proof/api-result.json`.
+> ⚠️ Screenshot is MANDATORY even for backend tasks. You must capture the UI that surfaces the feature.
+
+1. Read `.github/skills/chrome-devtools/SKILL.md` to activate Chrome DevTools tools.
+2. Ensure the dev server is running at `http://localhost:5173/`.
+3. Navigate to the page that shows the integrated feature via Chrome DevTools MCP.
+4. Take a screenshot using `take_screenshot` via Chrome DevTools MCP. Save to `featureFlow/<featureName>/screenshots/01-feature-working.png`.
+5. From the `dev-qa` results, extract the API responses or test output.
+6. Save any API response JSON to `featureFlow/<featureName>/proof/api-result.json`.
 
 Store proof in `summary.md` under `## Proof`:
 ```markdown
 ## Proof
 
-### UI Screenshot
+### UI Screenshot (Chrome DevTools MCP)
 - `screenshots/01-feature-working.png` — feature rendered with live data
 
 ### API Result
@@ -323,13 +339,10 @@ Confirm: `✅ Proof comment added to <issueKey>.`
 
 ## Step 11 — Raise a Pull Request (feature → base branch)
 
-Ask the user: **"Should I raise a PR now to merge `<branch>` into the base branch? (yes/no)"**
+> This step runs **automatically** — do not ask the user whether to create a PR. Always create it.
 
-If yes:
-
-1. Use `mcp_gitkraken_git_push` to push the feature branch to origin (if not already pushed).
-2. Determine the base branch — default is `main`. Ask if unsure: **"Which base branch should the PR target? (default: main)"**
-3. Use `mcp_gitkraken_pull_request_create` to open the PR with:
+1. Use `mcp_gitkraken_git_push` to push `branchName` to origin.
+2. Use `mcp_gitkraken_pull_request_create` to open the PR from `branchName` → `baseBranch` with:
    - **title**: `[<issueKey>] <summary>`
    - **description**:
      ```
@@ -341,26 +354,28 @@ If yes:
      <summary from Step 10 comment>
 
      ## Proof
-     <list screenshots / API results>
+     <list screenshots / API results captured in Step 8>
 
      ## Testing Steps
      <paste from Step 9>
 
      ## Checklist
+     - [x] Screenshots attached (Chrome DevTools MCP)
      - [ ] Code reviewed by matang
      - [ ] Tests pass
-     - [ ] Screenshots attached
      ```
    - **reviewer**: matang
+   - **auto_merge**: true (enable auto-merge on the PR)
 
-4. Store the PR URL. Add a comment to the Jira ticket:
+3. Store the PR URL as `prUrl`. Then add a Jira comment:
    ```
-   🔗 PR raised: <PR URL>
-   Reviewer: @matang — please review and approve.
+   🔗 PR raised: <prUrl>
+   Branch: `<branchName>` → `<baseBranch>`
+   Reviewer: @matang — auto-merge is enabled, will merge on approval.
    ```
    Call `jira_add_comment` with `issue_key = issueKey`.
 
-Confirm: `✅ PR raised: <PR URL> — matang notified for review.`
+Confirm: `✅ PR raised: <prUrl> — auto-merge enabled, matang assigned as reviewer.`
 
 ---
 
@@ -374,18 +389,18 @@ Confirm: `✅ <issueKey> moved to Code Review. matang is the reviewer.`
 
 ---
 
-## Step 13 — Wait for PR merge / Code Review approval
+## Step 13 — PR auto-merge & QA handoff
 
-Ask the user: **"Has matang approved and merged the PR? (yes / no — I'll wait)"**
+Since auto-merge was enabled in Step 11, the PR will merge automatically once matang approves.
 
-> If **no**: Stop here and wait. Remind the user:
-> ```
-> ⏳ Waiting for matang to review PR: <PR URL>
-> Once approved and merged, re-run this agent with "<issueKey>" to continue from QA handoff.
-> ```
-> Then **stop** — do not proceed.
+Proceed directly to Step 14 to set up the QA handoff. Do **not** wait or ask the user for confirmation — the QA assignment happens in parallel with the auto-merge.
 
-If **yes**, continue to Step 14.
+Display:
+```
+⚙️  PR created with auto-merge enabled: <prUrl>
+   Matang has been assigned as reviewer.
+   QA-1 handoff is being prepared now.
+```
 
 ---
 
