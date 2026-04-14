@@ -1,0 +1,29 @@
+feature:
+  name: "Login Split Layout"
+  description: "Enhance login page with a modern split-screen layout — left graphic/branding panel and right login form — with full responsiveness and accessibility."
+  branch: "feature/KAN-5-login-split-layout"
+  created: "2026-04-14"
+  figma_link: ""
+  local_url: "http://localhost:5173/"
+  tasks:
+    - id: KAN-5.1
+      type: "UI/Design"
+      name: "Create BrandPanel component"
+    - id: KAN-5.2
+      type: "UI/Design"
+      name: "Create SplitAuthLayout organism"
+    - id: KAN-5.3
+      type: "UI/Design"
+      name: "Integrate split layout into login page"
+    - id: KAN-5.4
+      type: "UI/Design"
+      name: "Accessibility audit and enhancements on login page"
+  acceptance_criteria:
+    - "Split-screen layout renders correctly on desktop (left graphic, right form)"
+    - "Illustration/branding panel hidden on mobile; form is centered and full-width"
+    - "Primary blue design tokens used throughout"
+    - "Forgot password link present in login form"
+    - "All inputs have proper labels, focus states, and aria attributes"
+    - "WCAG contrast ratio compliance"
+    - "Keyboard navigable"
+  status: "complete"

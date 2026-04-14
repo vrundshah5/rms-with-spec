@@ -48,6 +48,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
       <form
         onSubmit={handleSubmit(handleFormSubmit)}
         className="space-y-5"
+        aria-label="Login form"
         noValidate
       >
         {/* Username field */}
@@ -85,7 +86,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1 rounded-none"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
