@@ -491,7 +491,23 @@ Confirm: `✅ <issueKey> marked as Done.`
 
 ---
 
-## Step 17 — Finalise featureFlow
+## Step 17 — Run ticket-verifier to confirm all lifecycle steps
+
+> This step runs **automatically** — always invoke ticket-verifier at the end of the jira-feature workflow.
+
+Invoke the `ticket-verifier` sub-agent:
+- Pass `issueKey` (e.g. `KAN-5`)
+- Pass `featureFlowPath` (e.g. `featureFlow/<featureName>/`)
+
+The ticket-verifier will audit every lifecycle step — screenshots, Jira comments, PR, Code Review transition, QA-1 assignment — and fix any gaps it finds automatically.
+
+Wait for the ticket-verifier to complete and print its audit report before proceeding.
+
+If the ticket-verifier reports ❌ BLOCKED items, resolve them and re-run the verifier before marking the feature complete.
+
+---
+
+## Step 18 — Finalise featureFlow
 
 Update `featureFlow/<featureName>/summary.md`:
 
