@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { LoginForm } from "@/components/molecules/LoginForm";
+import { SplitAuthLayout } from "@/components/organisms";
+import { BrandPanel, LoginForm } from "@/components/molecules";
 
 export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,21 +17,23 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        {/* Branded header */}
-        <div className="text-center mb-8">
-          <span className="text-4xl font-extrabold tracking-tight text-primary-600">
-            RMS
-          </span>
-          <p className="text-neutral-500 dark:text-neutral-400 mt-2 text-sm">
-            Resource Management System
-          </p>
+    <SplitAuthLayout
+      leftPanel={<BrandPanel />}
+      rightPanel={
+        <div className="w-full max-w-md px-4 lg:px-0">
+          <div className="rounded-2xl shadow-xl overflow-hidden">
+            <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
+          </div>
+          <div className="mt-4 text-center">
+            <a
+              href="#"
+              className="text-primary text-sm hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 rounded-none"
+            >
+              Forgot password?
+            </a>
+          </div>
         </div>
-
-        {/* Login form card */}
-        <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
-      </div>
-    </div>
+      }
+    />
   );
 }
