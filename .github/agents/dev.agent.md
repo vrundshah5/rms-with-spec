@@ -2,7 +2,7 @@
 name: dev
 description: Implements logic, backend, API integration, state management, and non-visual features. Invoked by the feature agent for Logic / Backend tasks.
 argument-hint: A description of the logic or backend task to implement. Also expects featureFlowPath (e.g. featureFlow/login-page/) to update summary and trigger dev-qa.
-tools: ["codebase", "edit", "read", "search", "terminal"]
+tools: ["codebase", "edit", "read", "search", "terminal", "mcp_chrome-devtoo_navigate_page", "mcp_chrome-devtoo_take_screenshot", "mcp_chrome-devtoo_take_snapshot", "mcp_chrome-devtoo_new_page", "mcp_chrome-devtoo_list_pages", "mcp_chrome-devtoo_wait_for"]
 ---
 
 # Purpose

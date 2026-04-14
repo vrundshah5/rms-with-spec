@@ -2,7 +2,7 @@
 name: design-qa
 description: Visual QA agent. Uses Chrome DevTools MCP to screenshot the live app, compare it against a Figma design, report issues, and save proof screenshots to the featureFlow directory.
 argument-hint: featureFlowPath, localUrl, figmaLink, taskDescription
-tools: ["codebase", "edit", "read", "browser"]
+tools: ["codebase", "edit", "read", "browser", "mcp_chrome-devtoo_navigate_page", "mcp_chrome-devtoo_take_screenshot", "mcp_chrome-devtoo_take_snapshot", "mcp_chrome-devtoo_new_page", "mcp_chrome-devtoo_list_pages", "mcp_chrome-devtoo_select_page", "mcp_chrome-devtoo_click", "mcp_chrome-devtoo_fill", "mcp_chrome-devtoo_resize_page", "mcp_chrome-devtoo_evaluate_script", "mcp_chrome-devtoo_get_console_message", "mcp_chrome-devtoo_wait_for"]
 ---
 
 # Skills in use

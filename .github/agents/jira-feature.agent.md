@@ -5,7 +5,7 @@ description: >
 argument-hint: >
   Pass either a Jira issue key (e.g. KAN-1) to start from a specific ticket,
   or leave blank to list all tickets assigned to you and let you pick one.
-tools: ["codebase", "edit", "read", "browser", "terminal", "search", "mcp_mcp-atlassian_jira_get_issue", "mcp_mcp-atlassian_jira_get_transitions", "mcp_mcp-atlassian_jira_transition_issue", "mcp_mcp-atlassian_jira_search", "mcp_mcp-atlassian_jira_add_comment", "mcp_mcp-atlassian_jira_update_issue", "mcp_mcp-atlassian_jira_get_all_projects", "mcp_mcp-atlassian_jira_get_user_profile", "mcp_gitkraken_pull_request_create", "mcp_github_create_pull_request", "mcp_github_create_branch"]
+tools: ["codebase", "edit", "read", "browser", "terminal", "search", "mcp_mcp-atlassian_jira_get_issue", "mcp_mcp-atlassian_jira_get_transitions", "mcp_mcp-atlassian_jira_transition_issue", "mcp_mcp-atlassian_jira_search", "mcp_mcp-atlassian_jira_add_comment", "mcp_mcp-atlassian_jira_update_issue", "mcp_mcp-atlassian_jira_get_all_projects", "mcp_mcp-atlassian_jira_get_user_profile", "mcp_mcp-atlassian_jira_download_attachments", "mcp_gitkraken_pull_request_create", "mcp_gitkraken_git_push", "mcp_github_create_pull_request", "mcp_github_create_branch", "mcp_github_add_issue_comment", "mcp_chrome-devtoo_navigate_page", "mcp_chrome-devtoo_take_screenshot", "mcp_chrome-devtoo_take_snapshot", "mcp_chrome-devtoo_new_page", "mcp_chrome-devtoo_list_pages", "mcp_chrome-devtoo_select_page"]
 ---
 
 # Jira Feature Agent
