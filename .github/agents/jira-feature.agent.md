@@ -1,7 +1,7 @@
 ---
 name: jira-feature
 description: >
-  Jira-driven feature agent. Pick a Jira ticket → move it to In Progress → implement or design it → capture proof (screenshots/API results) → add testing steps as a Jira comment → raise PR → notify matang for code review → assign to hardik (QA-1) → kashyap (QA-2) → Done.
+  Jira-driven feature agent. Pick a Jira ticket → move it to In Progress → implement or design it → capture proof (screenshots/API results) → add testing steps as a Jira comment → raise PR (add PR link to ticket, assign matang as reviewer) → auto-merge → post "Merged into <base_branch>" PR comment → transition to QA-1 → assign hardik with screenshots as proof in Jira comment → kashyap (QA-2) → Done.
 argument-hint: >
   Pass either a Jira issue key (e.g. KAN-1) to start from a specific ticket,
   or leave blank to list all tickets assigned to you and let you pick one.
@@ -367,15 +367,18 @@ Confirm: `✅ Proof comment added to <issueKey>.`
    - **reviewer**: matang
    - **auto_merge**: true (enable auto-merge on the PR)
 
-3. Store the PR URL as `prUrl`. Then add a Jira comment:
+3. Store the PR URL as `prUrl`.
+
+4. Call `jira_update_issue` to set `assignee` to **matang** on the Jira ticket.
+
+5. Call `jira_add_comment` with `issue_key = issueKey`:
    ```
    🔗 PR raised: <prUrl>
    Branch: `<branchName>` → `<baseBranch>`
-   Reviewer: @matang — auto-merge is enabled, will merge on approval.
+   Reviewer: @matang — assigned to ticket. Auto-merge is enabled, will merge on approval.
    ```
-   Call `jira_add_comment` with `issue_key = issueKey`.
 
-Confirm: `✅ PR raised: <prUrl> — auto-merge enabled, matang assigned as reviewer.`
+Confirm: `✅ PR raised: <prUrl> — Jira ticket assigned to matang, auto-merge enabled.`
 
 ---
 
@@ -393,12 +396,18 @@ Confirm: `✅ <issueKey> moved to Code Review. matang is the reviewer.`
 
 Since auto-merge was enabled in Step 11, the PR will merge automatically once matang approves.
 
-Proceed directly to Step 14 to set up the QA handoff. Do **not** wait or ask the user for confirmation — the QA assignment happens in parallel with the auto-merge.
+Once the PR is confirmed merged, post a comment on the PR:
+```
+Merged into `<baseBranch>`
+```
+Use `mcp_gitkraken_pull_request_get_comments` or GitHub PR comment tool to add this comment to the PR.
+
+Proceed directly to Step 14 to set up the QA handoff. Do **not** wait or ask the user for confirmation — the QA assignment happens immediately after merge.
 
 Display:
 ```
-⚙️  PR created with auto-merge enabled: <prUrl>
-   Matang has been assigned as reviewer.
+⚙️  PR merged into <baseBranch>: <prUrl>
+   Post-merge PR comment added: "Merged into `<baseBranch>`"
    QA-1 handoff is being prepared now.
 ```
 
@@ -411,23 +420,28 @@ The PR is merged. Now hand off to QA.
 1. Call `jira_get_transitions` to find **"QA"**, **"QA-1"**, **"Testing"**, or **"In Testing"** — use whichever exists.
 2. Call `jira_transition_issue` to move the ticket to that status.
 3. Call `jira_update_issue` to set `assignee` to **hardik**.
-4. Call `jira_add_comment` with:
+4. Upload each screenshot from `featureFlow/<featureName>/screenshots/` as an attachment to the Jira ticket using `mcp_mcp-atlassian_jira_download_attachments` or the Jira attachment upload API. Store the list of uploaded attachment URLs/names.
+5. Call `jira_add_comment` with:
    ```
-   ## 🧪 Ready for QA-1 — Assigned to @hardik
+   ## 🧪 Ready for QA-1 — @hardik please begin testing
 
-   PR has been merged. Please begin QA testing.
+   PR has been merged into `<baseBranch>`. Please begin QA testing.
+
+   ### 📸 Proof (Screenshots)
+   <for each screenshot uploaded in step 4, embed or reference it>
+   - !<screenshot-filename>|thumbnail!
 
    ### Testing Steps
    <paste the testing steps from Step 9>
 
    ### Proof Reference
-   <list screenshots and API results from featureFlow/<featureName>/>
+   <list all screenshots and API results from featureFlow/<featureName>/>
 
    ### Pass Criteria
    <from the testing steps>
    ```
 
-Confirm: `✅ <issueKey> assigned to hardik for QA-1 testing.`
+Confirm: `✅ <issueKey> transitioned to QA-1, assigned to hardik, screenshots uploaded as proof.`
 
 ---
 
