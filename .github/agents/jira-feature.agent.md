@@ -5,7 +5,7 @@ description: >
 argument-hint: >
   Pass either a Jira issue key (e.g. KAN-1) to start from a specific ticket,
   or leave blank to list all tickets assigned to you and let you pick one.
-tools: ["codebase", "edit", "read", "browser", "terminal", "search"]
+tools: ["codebase", "edit", "read", "browser", "terminal", "search", "mcp_mcp-atlassian_jira_get_issue", "mcp_mcp-atlassian_jira_get_transitions", "mcp_mcp-atlassian_jira_transition_issue", "mcp_mcp-atlassian_jira_search", "mcp_mcp-atlassian_jira_add_comment", "mcp_mcp-atlassian_jira_update_issue", "mcp_mcp-atlassian_jira_get_all_projects", "mcp_mcp-atlassian_jira_get_user_profile", "mcp_gitkraken_pull_request_create", "mcp_github_create_pull_request", "mcp_github_create_branch"]
 ---
 
 # Jira Feature Agent
