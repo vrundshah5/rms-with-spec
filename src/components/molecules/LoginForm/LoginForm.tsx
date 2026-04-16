@@ -36,7 +36,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-lg p-8">
+    <div className="bg-white dark:bg-[var(--color-card)] border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-lg p-8">
       {/* Card header */}
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">Sign In</h2>
@@ -55,7 +55,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
         <div className="space-y-2">
           <Label htmlFor="username">Username</Label>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 dark:text-neutral-500" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 dark:text-neutral-400" />
             <Input
               id="username"
               type="text"
@@ -66,7 +66,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
             />
           </div>
           {errors.username && (
-            <p className="text-xs text-danger-600">{errors.username.message}</p>
+            <p className="text-xs text-danger-600 dark:text-danger-400">{errors.username.message}</p>
           )}
         </div>
 
@@ -74,7 +74,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 dark:text-neutral-500" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 dark:text-neutral-400" />
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
@@ -93,7 +93,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
             </button>
           </div>
           {errors.password && (
-            <p className="text-xs text-danger-600">{errors.password.message}</p>
+            <p className="text-xs text-danger-600 dark:text-danger-400">{errors.password.message}</p>
           )}
         </div>
 

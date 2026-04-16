@@ -62,7 +62,8 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       className={cn(
         "inline-flex items-center justify-center w-10 h-10",
-        "bg-transparent",
+        "bg-[var(--color-card)]",
+        "shadow-sm",
         "border border-[var(--color-border)]",
         "text-[var(--color-foreground)]",
         "hover:bg-[var(--color-muted)]",

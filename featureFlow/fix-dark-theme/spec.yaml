@@ -1,0 +1,34 @@
+feature:
+  name: "Fix Dark Theme Implementation"
+  description: "Identify and fix all dark theme UI/UX inconsistencies across the application."
+  branch: "fix/kan-8-dark-theme"
+  created: "2026-04-16"
+  figma_link: ""
+  local_url: "http://localhost:5173/"
+  tasks:
+    - id: 1
+      type: "Logic/Backend"
+      name: "Consolidate duplicate .dark CSS override blocks"
+      status: "pending"
+    - id: 2
+      type: "UI/Design"
+      name: "Fix Input atom hardcoded light-mode colors"
+      status: "pending"
+    - id: 3
+      type: "UI/Design"
+      name: "Align dark mode background colors in login layout"
+      status: "pending"
+    - id: 4
+      type: "UI/Design"
+      name: "Fix ThemeToggle visibility on dark backgrounds"
+      status: "pending"
+    - id: 5
+      type: "UI/Design"
+      name: "Audit and fix contrast/readability across all components"
+      status: "pending"
+  acceptance_criteria:
+    - "Dark theme works correctly across the application"
+    - "No visual inconsistencies or broken UI elements"
+    - "Proper contrast and accessibility are maintained"
+    - "Theme toggle functions without any issues"
+  status: "in-progress"

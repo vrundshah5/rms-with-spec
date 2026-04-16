@@ -15,7 +15,7 @@ export function SplitAuthLayout({ leftPanel, rightPanel, className }: SplitAuthL
       </div>
 
       {/* Right slot — full-width on mobile/tablet, half-width on lg+ */}
-      <div className="flex w-full flex-col items-center justify-center lg:w-1/2 bg-white dark:bg-neutral-950">
+      <div className="flex w-full flex-col items-center justify-center lg:w-1/2 bg-white dark:bg-[var(--color-background)]">
         {rightPanel}
       </div>
     </div>
