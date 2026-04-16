@@ -15,12 +15,14 @@ of a ticket from picking to Done.
 
 ## Team
 
-| Role | Person | Responsibility |
-|------|--------|----------------|
-| Dev | **vrund** (vrundshah7490@gmail.com) | Implements the feature |
-| Code Reviewer | **matang** | Reviews PR, must approve before QA |
-| QA-1 | **hardik** | First round of QA testing |
-| QA-2 | **kashyap** | Final QA sign-off, marks Done |
+| Role | Person | Jira Account ID | Responsibility |
+|------|--------|-----------------|----------------|
+| Dev | **Vrund Shah** | `712020:f7c0f930...` (currentUser) | Implements the feature |
+| Code Reviewer | **Matang Sojitra** | `712020:bb2528bf-781f-4baf-8556-9e73fcc6e2a9` | Reviews PR, must approve before QA |
+| QA-1 | **Hardik Sorathiya** | `712020:504d33a3-17a2-4586-965d-38d618c4e67a` | First round of QA testing |
+| QA-2 | **Kashyap Patel** | `712020:718ffa82-975c-4502-a887-0e92a426bb9a` | Final QA sign-off, marks Done |
+
+> **Always use the `accountId` field when calling `jira_update_issue` to assign a user.** Display names alone will not work.
 
 ## Full Ticket Lifecycle
 
@@ -305,7 +307,23 @@ Write these steps into `featureFlow/<featureName>/summary.md` under `## Testing 
 
 ---
 
-## Step 10 — Add proof comment to Jira ticket
+## Step 10 — Attach screenshots to Jira ticket + Add proof comment
+
+### 10a — Upload screenshots as Jira attachments
+
+> ⚠️ **This is MANDATORY for every task — UI and backend alike.**
+> Every screenshot saved to `featureFlow/<featureName>/screenshots/` MUST be uploaded as a Jira attachment.
+
+1. List all `.png` / `.jpg` / `.webp` files in `featureFlow/<featureName>/screenshots/`.
+2. For each file, call `mcp_mcp-atlassian_jira_update_issue` with:
+   - `issue_key`: the Jira issue key (e.g. `KAN-1`)
+   - `attachments`: the absolute path to the screenshot file
+3. Confirm each upload succeeded. If any fail, retry once.
+4. Store the filenames of successfully uploaded screenshots — they will be referenced in the comment below.
+
+Confirm: `✅ <N> screenshot(s) uploaded to <issueKey>.`
+
+### 10b — Add proof comment to Jira ticket
 
 Compose a Jira comment documenting the completed work:
 
@@ -323,6 +341,9 @@ Compose a Jira comment documenting the completed work:
 - Screenshot: <describe what it shows>
 - API Result: <if applicable>
 - Test Results: <pass/fail summary from dev-qa or design-qa>
+
+### Screenshots attached to this ticket
+<list each uploaded screenshot filename>
 
 ### Testing Steps
 <paste the full testing steps from Step 9>
@@ -369,16 +390,19 @@ Confirm: `✅ Proof comment added to <issueKey>.`
 
 3. Store the PR URL as `prUrl`.
 
-4. Call `jira_update_issue` to set `assignee` to **matang** on the Jira ticket.
+4. Call `jira_update_issue` to set `assignee` to **Matang Sojitra** on the Jira ticket using accountId:
+   ```
+   accountId: 712020:bb2528bf-781f-4baf-8556-9e73fcc6e2a9
+   ```
 
 5. Call `jira_add_comment` with `issue_key = issueKey`:
    ```
    🔗 PR raised: <prUrl>
    Branch: `<branchName>` → `<baseBranch>`
-   Reviewer: @matang — assigned to ticket. Auto-merge is enabled, will merge on approval.
+   Reviewer: @Matang Sojitra — assigned to ticket. Auto-merge is enabled, will merge on approval.
    ```
 
-Confirm: `✅ PR raised: <prUrl> — Jira ticket assigned to matang, auto-merge enabled.`
+Confirm: `✅ PR raised: <prUrl> — Jira ticket assigned to Matang Sojitra for code review, auto-merge enabled.`
 
 ---
 
@@ -419,7 +443,10 @@ The PR is merged. Now hand off to QA.
 
 1. Call `jira_get_transitions` to find **"QA"**, **"QA-1"**, **"Testing"**, or **"In Testing"** — use whichever exists.
 2. Call `jira_transition_issue` to move the ticket to that status.
-3. Call `jira_update_issue` to set `assignee` to **hardik**.
+3. Call `jira_update_issue` to set `assignee` to **Hardik Sorathiya** using accountId:
+   ```
+   accountId: 712020:504d33a3-17a2-4586-965d-38d618c4e67a
+   ```
 4. Upload each screenshot from `featureFlow/<featureName>/screenshots/` as an attachment to the Jira ticket using `mcp_mcp-atlassian_jira_download_attachments` or the Jira attachment upload API. Store the list of uploaded attachment URLs/names.
 5. Call `jira_add_comment` with:
    ```
@@ -454,12 +481,15 @@ If **yes**:
 1. Call `jira_get_transitions` to find **"QA-2"** or **"Final Review"** — use whichever exists.
    If no separate QA-2 transition exists, keep the current status and only reassign.
 2. Call `jira_transition_issue` if a QA-2 transition exists.
-3. Call `jira_update_issue` to set `assignee` to **kashyap**.
+3. Call `jira_update_issue` to set `assignee` to **Kashyap Patel** using accountId:
+   ```
+   accountId: 712020:718ffa82-975c-4502-a887-0e92a426bb9a
+   ```
 4. Call `jira_add_comment` with:
    ```
-   ## 🔍 QA-1 Passed — Assigned to @kashyap for QA-2 Sign-off
+   ## 🔍 QA-1 Passed — Assigned to @Kashyap Patel for QA-2 Sign-off
 
-   hardik has approved QA-1. Please perform final verification.
+   Hardik Sorathiya has approved QA-1. Please perform final verification.
 
    ### Testing Steps
    <paste the testing steps from Step 9>

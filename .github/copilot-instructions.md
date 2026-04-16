@@ -16,6 +16,21 @@ bypass this policy is a violation of the project security contract.
 
 ---
 
+## Jira Screenshot Policy
+
+> ⚠️ **Mandatory for ALL agents after any UI or integration work is completed.**
+
+Whenever a UI page, component, or integration feature is implemented and verified:
+
+1. Save the proof screenshot(s) to `featureFlow/<featureName>/screenshots/`.
+2. Upload **every screenshot** as an attachment to the corresponding Jira ticket using `mcp_mcp-atlassian_jira_update_issue` with the `attachments` field (absolute file path).
+3. Add a Jira comment that lists the uploaded screenshot filenames under a `### Screenshots` section.
+4. **Never skip this step.** A task is not considered done until screenshots are attached to Jira.
+
+This applies to: `design` agent, `dev` agent, `jira-feature` agent, and any ad-hoc implementation work done directly in the main agent.
+
+---
+
 ## Tech Stack & Standards
 
 ### Language
