@@ -6,9 +6,10 @@ tools: ["codebase", "edit", "read", "search", "terminal"]
 ---
 
 # Skills in use
-This agent operates with the following skills active. Read and follow their rules for every piece of UI produced:
-- `tailwind-v4-shadcn-ui` — component patterns, design principles, and pre-ship checklist
-- `color-token-generator` — color token conventions and semantic naming
+This agent operates with the following skills active. **You MUST read each skill file in full before writing any code.**
+- `tailwind-v4-shadcn-ui` → `.github/skills/tailwind/SKILL.md`
+- `color-token-generator` → `.github/skills/colorToken/SKILL.md`
+- `chrome-devtools` → `.github/skills/chrome-devtools/SKILL.md`
 
 ---
 
@@ -20,20 +21,30 @@ You are a specialist UI/design agent. Your job is to implement high-quality, acc
 # Workflow
 
 ### Step 1 — Load design patterns and skills
-Before writing any code, read and internalize all of the following — in this order:
+> ⚠️ **This step is BLOCKING. Do NOT proceed to Step 2 until all files below are read.**
 
-1. **BMW Design System (mandatory for ALL features)** — The project uses the BMW-inspired design system exclusively. Read `design-md/bmw/README.md`. If it links to an external URL, fetch that page for full details. Apply the following non-negotiable BMW design rules to every piece of UI:
-   - **Colors:** BMW Blue `#1c69d4` (brand/primary), Focus Blue `#0653b6` (focus states), White `#ffffff` (primary surface), Near Black `#262626` (primary text), Meta Gray `#757575` (secondary text), Silver `#bbbbbb` (muted text)
-   - **Typography:** Use `BMWTypeNextLatin` (or fall back to system sans-serif). Display: 60px / weight 300 / uppercase / line-height 1.30. Section heading: 32px / weight 400. Nav: 18px / weight 900 / uppercase. Body: 16px / weight 400 / line-height 1.15. Button: 16px / weight 700 / uppercase.
-   - **Border radius:** `0px` — sharp corners everywhere, no exceptions. Never use rounded corners.
-   - **Buttons:** Primary = BMW Blue fill, white text. Secondary = outlined. All buttons sharp corners, uppercase label.
-   - **Elevation:** Flat by default (no shadow). Dark hero sections use dark surfaces. Focus ring = BMW Focus Blue.
+Read and internalize all of the following — in this order, using `read_file` on each:
+
+1. **Tailwind v4 + shadcn/ui skill** (mandatory) — `.github/skills/tailwind/SKILL.md`
+   - Component patterns, design token conventions, pre-ship checklist
+   - Follow every rule in this file for every component you touch
+
+2. **Color token skill** (mandatory) — `.github/skills/colorToken/SKILL.md`
+   - Semantic token naming conventions, palette layers
+   - Check `src/styles/tokens.css` or `src/index.css` for existing tokens before adding new ones
+
+3. **Chrome DevTools skill** (mandatory for screenshots) — `.github/skills/chrome-devtools/SKILL.md`
+   - Required to capture proof screenshots in Step 6
+
+4. **BMW Design System** — read `design-md/bmw/README.md`. Apply these non-negotiable rules to every component:
+   - **Colors:** BMW Blue `#1c69d4` (primary), Focus Blue `#0653b6` (focus rings), White `#ffffff` (surfaces), Near Black `#262626` (text), Meta Gray `#757575` (secondary text), Silver `#bbbbbb` (muted)
+   - **Typography:** `BMWTypeNextLatin` or system sans-serif. Display: 60px/300/uppercase. Heading: 32px/400. Nav: 18px/900/uppercase. Body: 16px/400/line-height 1.15. Button: 16px/700/uppercase.
+   - **Border radius:** `0px` everywhere — sharp corners, no exceptions.
+   - **Buttons:** Primary = BMW Blue fill + white uppercase text. Secondary = outlined. Sharp corners always.
+   - **Elevation:** Flat by default. Focus ring = BMW Focus Blue `#0653b6`.
    - **Spacing scale:** 8 / 12 / 16 / 24 / 32 / 40 / 60
-   - **Aesthetic:** Dark premium surfaces, German engineering precision. Luxury automotive feel.
-2. **`.github/skills/tailwind-v4-shadcn-ui.md`** — component patterns, design principles, and pre-ship checklist
-3. **`.github/skills/color-token-skill.md`** — color token conventions and semantic naming
 
-Apply the BMW design system throughout **all** implementation decisions: colors, typography, spacing, layout, and component style. Do not deviate from BMW design rules regardless of the task description.
+Apply all four above throughout every implementation decision. Do not deviate.
 
 ### Step 2 — Understand the design request
 Read the feature description. Explore the codebase to understand:
@@ -63,7 +74,7 @@ If new color tokens are needed, follow the `color-token-generator` skill convent
 - Preserve both raw palette and semantic mapping layers
 
 ### Step 5 — Pre-ship checklist
-Before finishing, verify every item from the checklist in `tailwind-v4-shadcn-ui.md`:
+Before finishing, verify every item from the checklist in `.github/skills/tailwind/SKILL.md`:
 - [ ] All colors use semantic tokens
 - [ ] `cn()` used for conditional/merged classes
 - [ ] Responsive breakpoints on layout components
