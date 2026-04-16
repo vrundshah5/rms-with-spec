@@ -1,0 +1,10 @@
+feature:
+  name: "Login UI Updates"
+  jira_key: "KAN-6"
+  task_type: "UI/Design"
+  branch: "feature/KAN-6-login-ui-updates"
+  base_branch: "custom"
+  created: "2026-04-14"
+  local_url: "http://localhost:5174/"
+  figma_link: ""
+  status: "complete"

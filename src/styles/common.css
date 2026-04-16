@@ -1,0 +1,133 @@
+/* =============================================================================
+   Common Styles — centralized base resets, typography, and component defaults
+   All values reference CSS custom properties defined in tokens.css / @theme.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   Base resets & typography
+   --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    font-size: 16px;
+    line-height: 1.5;
+    text-size-adjust: 100%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-foreground);
+  }
+
+  p {
+    color: var(--color-foreground);
+    line-height: 1.625;
+  }
+
+  small {
+    font-size: 0.875rem;
+    color: var(--color-muted-foreground);
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  /* ---------------------------------------------------------------------------
+     Focus ring — consistent keyboard-navigation indicator
+     --------------------------------------------------------------------------- */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: var(--radius);
+  }
+
+  /* ---------------------------------------------------------------------------
+     Links
+     --------------------------------------------------------------------------- */
+  a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 150ms ease;
+  }
+
+  a:hover {
+    color: var(--color-primary-700);
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: var(--radius);
+    text-decoration: none;
+  }
+
+  /* ---------------------------------------------------------------------------
+     Button base — normalize browser defaults before variant styling
+     --------------------------------------------------------------------------- */
+  button {
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* ---------------------------------------------------------------------------
+     Form inputs base
+     --------------------------------------------------------------------------- */
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-muted-foreground);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Dark mode — custom property overrides
+   Apply the `.dark` class to <html> or <body> to activate.
+   --------------------------------------------------------------------------- */
+.dark {
+  --color-background: oklch(0.145 0 0);
+  --color-foreground: oklch(0.985 0 0);
+  --color-card: oklch(0.205 0 0);
+  --color-card-foreground: oklch(0.985 0 0);
+  --color-popover: oklch(0.205 0 0);
+  --color-popover-foreground: oklch(0.985 0 0);
+  --color-primary: var(--color-primary-500);
+  --color-primary-foreground: oklch(0.145 0 0);
+  --color-secondary: oklch(0.269 0 0);
+  --color-secondary-foreground: oklch(0.985 0 0);
+  --color-muted: oklch(0.269 0 0);
+  --color-muted-foreground: oklch(0.708 0 0);
+  --color-accent: oklch(0.269 0 0);
+  --color-accent-foreground: oklch(0.985 0 0);
+  --color-destructive: oklch(0.704 0.191 22.216);
+  --color-border: oklch(1 0 0 / 10%);
+  --color-input: oklch(1 0 0 / 15%);
+  --color-ring: oklch(0.556 0 0);
+}

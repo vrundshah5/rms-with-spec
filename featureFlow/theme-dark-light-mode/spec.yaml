@@ -1,0 +1,34 @@
+feature:
+  name: "Theme Configuration – Dark & Light Mode"
+  description: "Add dark/light theme toggle with persistent localStorage state and semantic CSS token overrides"
+  jira_key: "KAN-7"
+  branch: "feature/KAN-7-theme-configuration-dark-light-mode"
+  base_branch: "main"
+  created: "2026-04-16"
+  figma_link: ""
+  local_url: "http://localhost:5173/"
+  tasks:
+    - id: KAN-7.1
+      type: Logic / Backend
+      name: "Implement useTheme hook + ThemeProvider"
+      status: pending
+    - id: KAN-7.2
+      type: UI / Design
+      name: "Dark mode semantic token overrides"
+      status: pending
+    - id: KAN-7.3
+      type: UI / Design
+      name: "Build ThemeToggle atom component"
+      status: pending
+    - id: KAN-7.4
+      type: UI / Design
+      name: "Place ThemeToggle in app layout"
+      status: pending
+  acceptance_criteria:
+    - User can switch between Dark and Light themes using the toggle button
+    - Selected theme persists across page refreshes (localStorage)
+    - Colors strictly follow the design token specifications
+    - Text and UI elements have sufficient contrast in both themes
+    - Toggle visible in top-right corner across all screens
+    - No UI breakage or inconsistency in either mode
+  status: "complete"

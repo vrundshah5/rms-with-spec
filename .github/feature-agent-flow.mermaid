@@ -1,0 +1,69 @@
+flowchart TD
+    A(["🚀 feature agent<br/>Create login page + integrate auth API"])
+
+    A --> BA["ba agent<br/>Brainstorm & break into tasks"]
+
+    BA --> TASKS{Task breakdown}
+    TASKS --> T1["Task 1 — UI / Design<br/>Create login page"]
+    TASKS --> T2["Task 2 — Logic / Backend<br/>Integrate auth API"]
+
+    BA --> BC["branchCreator<br/>Ask branch name<br/>git checkout -b feature/xyz"]
+
+    BC --> SCAFFOLD["Scaffold featureFlow/login-page/<br/>──────────────────────<br/>plan.md<br/>spec.yaml<br/>summary.md<br/>screenshots/"]
+
+    SCAFFOLD --> T1
+
+    subgraph DESIGN_TRACK ["🎨  Design Track"]
+        direction TB
+        T1 --> DA["design agent<br/>Build UI<br/>Tailwind v4 + shadcn/ui"]
+
+        DA --> DQA
+
+        subgraph DQA_LOOP ["  Design QA Loop  "]
+            direction TB
+            DQA["design-qa agent<br/>Chrome DevTools MCP<br/>Screenshot · Figma compare"]
+            DQA --> DC{Issues?}
+            DC -->|"✅ PASS"| DPASS["Save screenshot<br/>design-qa-pass.png<br/>Update summary.md"]
+            DC -->|"❌ FAIL — Log bugs → summary.md"| DFIX
+            DFIX["design agent<br/>Fix reported issues"] --> DQA
+        end
+    end
+
+    DPASS --> T2
+
+    subgraph DEV_TRACK ["⚙️  Dev Track"]
+        direction TB
+        T2 --> DEV["dev agent<br/>Integrate auth API<br/>Hooks · services · state"]
+
+        DEV --> DEVQA
+
+        subgraph DEVQA_LOOP ["  Dev QA Loop  "]
+            direction TB
+            DEVQA["dev-qa agent<br/>Playwright E2E<br/>Happy path + error cases"]
+            DEVQA --> DEVC{Tests pass?}
+            DEVC -->|"✅ PASS"| DEVPASS["Save test results<br/>Update summary.md"]
+            DEVC -->|"❌ FAIL — Log bugs → summary.md"| DEVFIX
+            DEVFIX["dev agent<br/>Fix implementation bugs"] --> DEVQA
+        end
+    end
+
+    DEVPASS --> FINAL
+
+    FINAL["feature agent<br/>Finalise summary.md<br/>──────────────────────<br/>All tasks → done<br/>Bugs → resolved<br/>spec.yaml status: complete"]
+
+    FINAL --> DONE([✅ Feature Complete])
+
+    %% Styles
+    style A fill:#7c3aed,color:#fff,stroke:#6d28d9
+    style DONE fill:#16a34a,color:#fff,stroke:#15803d
+    style SCAFFOLD fill:#1e293b,color:#94a3b8,stroke:#334155
+    style FINAL fill:#1e293b,color:#94a3b8,stroke:#334155
+    style DESIGN_TRACK fill:#1a0a2e,stroke:#7c3aed,color:#c4b5fd
+    style DEV_TRACK fill:#0a1628,stroke:#2563eb,color:#93c5fd
+    style DQA_LOOP fill:#2a1040,stroke:#a855f7,color:#e9d5ff
+    style DEVQA_LOOP fill:#0f1f3d,stroke:#3b82f6,color:#bfdbfe
+    style DFIX fill:#7f1d1d,color:#fca5a5,stroke:#991b1b
+    style DEVFIX fill:#7f1d1d,color:#fca5a5,stroke:#991b1b
+    style DC fill:#374151,color:#fff,stroke:#6b7280
+    style DEVC fill:#374151,color:#fff,stroke:#6b7280
+    style TASKS fill:#374151,color:#fff,stroke:#6b7280

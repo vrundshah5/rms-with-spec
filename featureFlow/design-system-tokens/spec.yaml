@@ -1,0 +1,29 @@
+feature:
+  name: "Design System Improvement: Common CSS, Theme Setup & Tokenizer Integration"
+  description: "Centralize design tokens (colors, spacing, typography) via Tailwind v4 theme and a common CSS file; update all existing components to use the tokens."
+  branch: "feature/KAN-4-design-system-improvement"
+  created: "2026-04-14"
+  figma_link: ""
+  local_url: "http://localhost:5173/"
+  tasks:
+    - id: 1
+      type: "Logic/Backend"
+      name: "Generate design tokens using color-token-generator skill"
+    - id: 2
+      type: "Logic/Backend"
+      name: "Configure Tailwind CSS v4 theme and create common CSS file"
+    - id: 3
+      type: "UI/Design"
+      name: "Update existing atom components to use design tokens"
+    - id: 4
+      type: "UI/Design"
+      name: "Update LoginForm molecule and login page with new styles and full responsiveness"
+  acceptance_criteria:
+    - "A centralized common CSS file is created using design tokens"
+    - "Primary and secondary colors are defined using tokenizer (CSS variables or JSON tokens)"
+    - "A theme system is implemented and supports primary color (blue) as default"
+    - "UI components are updated to use the common styles and tokens"
+    - "All pages/components are fully responsive (mobile, tablet, desktop)"
+    - "Code follows best practices and is reusable across projects"
+    - "Current design primary colors are updated"
+  status: "complete"

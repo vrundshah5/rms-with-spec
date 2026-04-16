@@ -1,0 +1,95 @@
+flowchart TD
+    START(["🎯 jira-feature agent\nStart with issue key or blank"])
+
+    START --> PICK["Step 1 — Pick Ticket\njira_search: assignee = currentUser()\nAND status = To Do"]
+
+    PICK --> READ["Step 2 — Read Ticket\njira_get_issue\nExtract: summary · description · type · priority"]
+
+    READ --> INPROG["Step 3 — Move → In Progress\njira_get_transitions\njira_transition_issue"]
+
+    INPROG --> CLASSIFY{"Step 4 — Classify\nTask Type?"}
+    CLASSIFY -->|"UI keywords\n(page, layout, design, form, view)"| UITYPE["UI / Design"]
+    CLASSIFY -->|"Backend keywords\n(API, hook, service, fetch, auth)"| DEVTYPE["Logic / Backend"]
+    CLASSIFY -->|"Ambiguous"| ASKTYPE["Ask user"]
+    ASKTYPE --> CLASSIFY
+
+    UITYPE --> SCAFFOLD
+    DEVTYPE --> SCAFFOLD
+
+    SCAFFOLD["Step 5 — Scaffold featureFlow\nfeatureFlow/feature-name/\n──────────────────\nplan.md · spec.yaml\nsummary.md\nscreenshots/ · proof/"]
+
+    SCAFFOLD --> BRANCH["Step 6 — Create Branch\nbranchCreator agent\nfeature/KAN-1-feature-name"]
+
+    BRANCH --> IMPL{"Step 7 — Implement"}
+
+    subgraph DESIGN_TRACK ["🎨 UI / Design Track"]
+        direction TB
+        DA["design agent\nBuild UI\nTailwind v4 + shadcn/ui"]
+        DA --> DQA["design-qa agent\nChrome DevTools MCP\nScreenshot · Figma compare"]
+        DQA --> DC{Issues?}
+        DC -->|"✅ PASS"| DPASS["Screenshots saved\nsummary.md updated"]
+        DC -->|"❌ FAIL"| DFIX["design agent\nFix issues"]
+        DFIX --> DQA
+    end
+
+    subgraph DEV_TRACK ["⚙️ Logic / Backend Track"]
+        direction TB
+        DEV["dev agent\nAPI · hooks · services · state"]
+        DEV --> DEVQA["dev-qa agent\nPlaywright E2E tests"]
+        DEVQA --> DEVC{Tests pass?}
+        DEVC -->|"✅ PASS"| DEVPASS["Test results saved\napi-result.json\nsummary.md updated"]
+        DEVC -->|"❌ FAIL"| DEVFIX["dev agent\nFix implementation"]
+        DEVFIX --> DEVQA
+    end
+
+    IMPL -->|"UI / Design"| DA
+    IMPL -->|"Logic / Backend"| DEV
+
+    DPASS --> PROOF
+    DEVPASS --> PROOF
+
+    PROOF["Step 8 — Capture Proof\nDesign: screenshots light/dark + a11y snapshot\nBackend: UI screenshot + api-result.json + test summary"]
+
+    PROOF --> TESTSTEPS["Step 9 — Write Testing Steps\nPreconditions · Steps · Pass Criteria · Fail Criteria\nStored in featureFlow/summary.md"]
+
+    TESTSTEPS --> COMMENT["Step 10 — Add Jira Comment\njira_add_comment\n✅ Implementation Complete — Ready for Code Review\n+ proof + testing steps"]
+
+    COMMENT --> PR["Step 11 — Raise Pull Request\nmcp_gitkraken_git_push\nmcp_gitkraken_pull_request_create\nfeature/KAN-x → main\nReviewer: matang"]
+
+    PR --> CODEREVIEW["Step 12 — Move → Code Review\njira_transition_issue → In Review\nJira comment: PR link + reviewer = matang"]
+
+    CODEREVIEW --> WAIT_CR{"Step 13 — Wait\nHas matang approved\n& merged PR?"}
+    WAIT_CR -->|"❌ No — Stop & wait"| PAUSE1["⏳ Paused\nRe-run agent with\nissue key to resume"]
+    WAIT_CR -->|"✅ Yes — PR merged"| QA1
+
+    QA1["Step 14 — Assign to QA-1\njira_transition_issue → Testing/QA\njira_update_issue → assignee: hardik\njira_add_comment: testing steps + proof"]
+
+    QA1 --> WAIT_QA1{"Step 15 — Wait\nHas hardik approved\nQA-1?"}
+    WAIT_QA1 -->|"❌ No — Stop & wait"| PAUSE2["⏳ Paused\nRe-run agent with\nissue key to resume"]
+    WAIT_QA1 -->|"✅ Yes"| QA2
+
+    QA2["Step 15 — Assign to QA-2\njira_transition_issue → QA-2 (if exists)\njira_update_issue → assignee: kashyap\njira_add_comment: QA-1 passed, final sign-off"]
+
+    QA2 --> WAIT_QA2{"Step 16 — Wait\nHas kashyap signed\noff QA-2?"}
+    WAIT_QA2 -->|"❌ No — Stop & wait"| PAUSE3["⏳ Paused\nRe-run agent with\nissue key to resume"]
+    WAIT_QA2 -->|"✅ Yes"| DONE
+
+    DONE["Step 16 — Move → Done\njira_transition_issue → Done\njira_add_comment: ✅ Signed off by kashyap"]
+
+    DONE --> FINAL["Step 17 — Finalise\nfeatureFlow/summary.md → Outcome filled\nspec.yaml → status: done\nProgress log complete"]
+
+    FINAL --> END(["🎉 Complete!\nTicket: Done\nPR: merged\nmatang ✅ · hardik ✅ · kashyap ✅"])
+
+    %% Styling
+    style START fill:#6366f1,color:#fff,stroke:none
+    style END fill:#22c55e,color:#fff,stroke:none
+    style PAUSE1 fill:#f59e0b,color:#fff,stroke:none
+    style PAUSE2 fill:#f59e0b,color:#fff,stroke:none
+    style PAUSE3 fill:#f59e0b,color:#fff,stroke:none
+    style DESIGN_TRACK fill:#f0f4ff,stroke:#6366f1,stroke-width:2px
+    style DEV_TRACK fill:#f0fdf4,stroke:#22c55e,stroke-width:2px
+    style INPROG fill:#3b82f6,color:#fff,stroke:none
+    style CODEREVIEW fill:#8b5cf6,color:#fff,stroke:none
+    style QA1 fill:#14b8a6,color:#fff,stroke:none
+    style QA2 fill:#14b8a6,color:#fff,stroke:none
+    style DONE fill:#22c55e,color:#fff,stroke:none
