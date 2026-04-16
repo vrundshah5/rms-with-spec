@@ -159,3 +159,47 @@
     min-height: 100svh;
   }
 }
+
+/* =============================================================================
+   Dark mode semantic token overrides — KAN-7.2
+   Applied when <html class="dark"> is set by ThemeProvider
+   ============================================================================= */
+.dark {
+  /* Background → near-black (neutral-900: #18181b) */
+  --color-background: var(--color-neutral-900);
+  /* Foreground / text primary → white */
+  --color-foreground: #ffffff;
+
+  /* Card / surface → slightly lighter dark (neutral-800: #27272a) */
+  --color-card: var(--color-neutral-800);
+  --color-card-foreground: #ffffff;
+
+  /* Popover */
+  --color-popover: var(--color-neutral-800);
+  --color-popover-foreground: #ffffff;
+
+  /* Secondary surface */
+  --color-secondary: var(--color-neutral-800);
+  --color-secondary-foreground: #ffffff;
+
+  /* Muted / subdued surface */
+  --color-muted: var(--color-neutral-800);
+  /* Text secondary → neutral-400 (#a1a1aa) */
+  --color-muted-foreground: var(--color-neutral-400);
+
+  /* Accent hover surface */
+  --color-accent: var(--color-neutral-700);
+  --color-accent-foreground: #ffffff;
+
+  /* Border → neutral-700 (#3f3f46) */
+  --color-border: var(--color-neutral-700);
+
+  /* Input background → neutral-800 (#27272a) */
+  --color-input: var(--color-neutral-800);
+
+  /* Focus ring → BMW Focus Blue */
+  --color-ring: #0653b6;
+
+  /* Primary action (BMW Blue #1c69d4) — unchanged in dark mode */
+  /* --color-primary intentionally not overridden */
+}
