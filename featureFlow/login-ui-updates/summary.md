@@ -54,9 +54,11 @@
 - [2026-04-14] Added explicit `bg-white dark:bg-neutral-950` to SplitAuthLayout right panel for correct page-area theming
 - [2026-04-14] Removed redundant card wrapper from login.tsx — LoginForm molecule is self-contained with `bg-white dark:bg-neutral-900`
 - [2026-04-14] Feature complete. Verification passed (tsc: ✅, build: ✅, console: ✅). Branch: feature/KAN-6-login-ui-updates
+- [2026-04-14] Ticket-verifier lifecycle audit run. CHECKs 2, 4a-d, 5 passed. CHECK 3 (screenshots) BLOCKED — Chrome DevTools MCP not configured. CHECKs 1, 6, 7, 8, 9 BLOCKED — Jira/GitHub MCP not configured. Manual action required.
 
 ## Screenshots
-_To be captured by ticket-verifier._
+- `screenshots/01-feature-view.png` — desktop view (PENDING: capture manually at http://localhost:5174/login)
+- `screenshots/02-mobile-view.png` — mobile view 390px (PENDING: capture manually at http://localhost:5174/login)
 
 ## Outcome
 Removed the "Forgot password?" link added in KAN-5. Fixed light theme login card: the `SplitAuthLayout` right panel now has an explicit `bg-white dark:bg-neutral-950` background ensuring the page area is white in light mode and near-black in dark mode. The `LoginForm` molecule is already self-contained with `bg-white dark:bg-neutral-900`, so no duplicate wrapper card was needed. Dark theme card remains unchanged. All acceptance criteria met.
